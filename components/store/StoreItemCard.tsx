@@ -1,21 +1,21 @@
-import { Record } from "@/types/record";
-import Image from "next/image";
+import { Release } from "@/types/release";
 import PlayButton from "../audioplayer/PlayButton";
+import ReleaseImage from "./ReleaseImage";
+import Link from "next/link";
 
-export default function StoreItemCard({ item }: { item: Record }) {
-    
+export default function StoreItemCard({ item }: { item: Release }) {
     return (
-        <div className="w-1/3 border p-3">
-            <h3>{item.name}</h3>
-            <Image src={item.coverImage} alt={item.name} width={200} height={200} />
-            <p>{item.description}</p>
-            <span>Price: ${item.price}</span>
-            {item.tracklist.map((track, index) => (
-                <div key={index}>
-                    <span>{track.title} {track.duration && `- ${track.duration}`}</span>
-                    {track.preview && <PlayButton src={track.preview || ''} />}
-                </div>
+        <div className="w-1/5 p-3">
+            <Link href={`/shop/release/${item.id}`}>
+                <ReleaseImage src={item.cover} alt={item.name} width={300} height={300} />
+            </Link>
+            <h3>{item.artist} - {item.name}</h3>
+            <span>${item.price}</span>
+            <div className="mt-2">
+            {item.tracklist.slice(0,5).map((track, index) => (
+                track.url && <PlayButton key={index} src={`https://audio.octan.online/${track.url}`} track={track} release={item}/>
             ))}
+            </div>
         </div>
     )
 }

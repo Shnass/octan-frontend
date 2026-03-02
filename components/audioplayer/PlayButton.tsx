@@ -1,20 +1,19 @@
 "use client"
 
-import React from "react"
-import { playTrack, pauseTrack } from "./AudioController"
+import { useContext } from "react"
+import AudioContext from "./AudioContext";
+import { Track } from "@/types/track";
+import { Release } from "@/types/release";
 
-export default function PlayButton({ src }: { src: string }){
-    const [isPlaying, setIsPlaying] = React.useState(false);
+export default function PlayButton({ src, track, release }: { src: string, track: Track, release: Release }){
+    const audioContext = useContext(AudioContext);
+    const { currentTrack, isPlaying, playButtonHandler } = audioContext;
 
     function handleClick() {
-        if (isPlaying) {
-            pauseTrack();
-            setIsPlaying(false);
-        } else {
-            playTrack(src);
-            setIsPlaying(true);
-        }
+        playButtonHandler(release, track, src);
     }
 
-    return <button className="cursor-pointer" onClick={handleClick}>{isPlaying ? "Pause" : "Play"}</button>
+    return <button className="cursor-pointer" onClick={handleClick}>
+        {currentTrack !== null && currentTrack.id === track.id && isPlaying ? "⏸" : "▶"}
+    </button>
 }

@@ -1,12 +1,22 @@
-import { Records } from "@/types/records";
+import { Releases } from "@/types/releases";
 import StoreItemCard from "./StoreItemCard";
+import Pagination from "./Pagination";
+import { Release } from "@/types/release";
 
-export default function StoreItemsList({ items }: { items: Records }) {
+type StoreItemsListProps = { items: Releases, 
+    pages?: number, 
+    currentPage?: number,
+    showPagination?: boolean 
+  }
+
+export default function StoreItemsList(
+  { items, pages=1, currentPage=1, showPagination = true } : StoreItemsListProps) {
   return (
     <>
-      <div className="flex wrap-normal">
-      {items.map((item) => <StoreItemCard key={item.id} item={item} />)}
+      <div className="flex wrap-normal flex-wrap -mx-3">
+        {items.map((item:Release) => <StoreItemCard key={item.id} item={item} />)}
       </div>
+      {(showPagination && pages>1) && <Pagination totalPages={pages} currentPage={currentPage} />}
     </>
   );
 }

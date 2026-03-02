@@ -7,7 +7,8 @@ import AudioPlayer from "./AudioPlayer";
 export default function GlobalAudioShell() {
   return (
     <AudioPlayerProvider>
-      <AudioPlayer />
+        <AudioPlayer />
     </AudioPlayerProvider>
   );
 }
+

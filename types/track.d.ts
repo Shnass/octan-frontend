@@ -1,5 +1,7 @@
 export type Track = {
+    id: number;
     title: string;
     duration?: string;
-    preview?: string | undefined;
+    url?: string | undefined;
+    bpm?: number;
 }

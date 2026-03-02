@@ -3,8 +3,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Container from "@/components/layout/Container";
 import type { Metadata } from "next";
-import AudioWrapper from "@/components/store/AudioWrapper";
 import GlobalAudioShell from "@/components/audioplayer/GlobalAudioShell";
+import AudioContextProvider from "@/components/audioplayer/AudioContextProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,15 +17,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-  <AudioWrapper>  
-    <Container>
-      <Header />
-      <div className="flex-grow">
-        {children}
-      </div>
-      <GlobalAudioShell />
-      <Footer />
-    </Container>
-  </AudioWrapper>
+    <AudioContextProvider>
+      <Container>
+        <Header />
+        <div className="flex-grow">
+          {children}
+        </div>
+        <GlobalAudioShell />
+        <Footer />
+      </Container>
+    </AudioContextProvider>
   );
 }

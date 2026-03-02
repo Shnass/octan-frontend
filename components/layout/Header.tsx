@@ -1,13 +1,18 @@
-import HeaderNavi from "./HeaderNavi";
-import Image from "next/image";
+import GenreNavi from "../store/GenreNavi";
+import HeaderCart from "../store/HeaderCart";
+import Logo from "./Logo";
+import Navi from "./Navi";
 
 export default function Header() {
     return (
-        <header className="flex justify-between py-10 relative w-full">
-        <h1 className="">
-          <Image src="/octan-logo.svg" alt="Octan Logo" width={40} height={40} />
-        </h1>
-        <HeaderNavi />
-      </header>
+        <header className="py-10 relative w-full">
+          <div className="flex justify-end">
+            <Navi />
+          </div>
+          <div className="flex justify-between ">
+            <Logo />
+            <HeaderCart />
+          </div>
+        </header>
     )
 }
