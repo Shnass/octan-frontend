@@ -3,36 +3,19 @@
 import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
+import { NPCity, NPDepartment, NPFetchArguments } from '@/types/np'
+import AddressCombobox from "./AddressCombobox";
 
 // to do: implement useQuery
 
 
-type NPCity = {
-    Ref: string,
-    Description: string,
-    AreaDescription: string
-}
-type NPDepartment = {
-    Description: string,
-    CityDescription: string,
-    ShortAddress: string,
-    Ref: string
-}
 
-type NPFetchArguments = {
-    input: string,
-    method: string,
-    cityName?: string,
-    cityRef?: string
-
-}
-
-async function getCities(
+async function getCities<T>(
     input: string, 
     method: string = "getCities", 
     limit: number = 3, 
-    callback: (x)=>void, 
-    userCity: NPCity | null = null) {
+    callback: (x:T[])=>void, 
+    userCity?: NPCity) {
 
     if(input.length<limit) {
         callback([]);
@@ -41,12 +24,13 @@ async function getCities(
 
     const bodyArgs:NPFetchArguments = {
         input: input,
-        method: method
+        method: method,
+        Limit: 20
     }
 
-    if(userCity!==null){
-        bodyArgs.cityName = userCity.Description;
-        bodyArgs.cityRef = userCity.Ref
+    if(userCity && userCity.Description !== "") {
+        bodyArgs.CityName = userCity.Description;
+        bodyArgs.CityRef = userCity.Ref
     }
     
     const cities = await fetch("/api/np", {
@@ -62,12 +46,25 @@ async function getCities(
 
 
 export default function NP() {
+    const initialCity: NPCity = {
+        Ref: "00000000-0000-0000-0000-000000000000",
+        Description: "",
+        AreaDescription: ""
+    }
+    const initialDepartment: NPDepartment = {
+        Description: "",
+        CityDescription: "",
+        ShortAddress: "",
+        Ref: "00000000-0000-0000-0000-000000000000"
+    }
+
+
     const [cities, setCities] = useState([]);
     const [city, setCity] = useState('');
-    const [userCity, setUserCity] = useState<NPCity | null>(null)
+    const [userCity, setUserCity] = useState(initialCity)
     const [departments, setDepartments] = useState([]);
     const [department, setDepartment] = useState('');
-    const [userDepartment, setUserDepartment] = useState<NPDepartment | null>(null)
+    const [userDepartment, setUserDepartment] = useState<NPDepartment>(initialDepartment)
 
     const debounceCity = useDebounce(city, 300)
     const debounceDepartment = useDebounce(department, 300)
@@ -82,78 +79,32 @@ export default function NP() {
 
   return (
     <div>
-        {/* <input type="text" className="border" id="NPCity" value={city} onChange={(e)=>setCity(e.target.value)} /> */}
-        <input type="text" className="border" id="NPIndex" value={department} onChange={(e)=>setDepartment(e.target.value)} />
 
-        
-        
-        <Combobox 
-            value={userCity} 
-            as="div"
-            className="w-80"
-            onChange={(v)=>{setUserCity(v);}} 
-            onClose={() => setCity('')}>
-            <ComboboxInput
-                aria-label="Assignee"
-                autoComplete="nope"
-                autoCorrect="off"
-                autoCapitalize="none"
-                spellCheck={false}
-                displayValue={(city:NPCity) => city ? `${city.Description} - ${city.AreaDescription}` : ''}
-                onChange={(e)=>{
-                    setCity(e.target.value)
-                }}
-                className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm text-gray-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-            />
+        <AddressCombobox 
+            value={userCity}
+            onChange={(city:NPCity) => setUserCity(city as NPCity)}
+            onClose={() => setCity('')}
+            inpValue={(city:NPCity | null) => city?.Description ? `${city.Description} - ${'AreaDescription' in city ? city.AreaDescription : city.CityDescription}` : ''}
+            setInputValue={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const { value } = e.target
+                setCity(value)
+            }}
+            list={cities}
+            disabled={false}
+        />
 
-            
-            <ComboboxOptions 
-                anchor="bottom"
-                data-open="true"
-                className="mt-1 max-h-60 w-(--input-width) overflow-auto rounded-lg bg-white shadow-lg ring-1 ring-black/5">
-                {cities.map((city:NPCity) => (
-                <ComboboxOption key={city.Ref} value={city}
-                className={({ active }) =>
-                    `cursor-pointer select-none py-2 px-3 transition ${
-                        active ? "bg-blue-50 text-blue-900" : "text-gray-900"
-                    }`
-            }>
-                    {city.Description} - {city.AreaDescription}
-                </ComboboxOption>
-                ))}
-            </ComboboxOptions>
-        </Combobox>
-
-
-
-
-
-        {/*
-            cities.length>0 && <ul>
-                {
-                    cities.map((city:NPCity) => <li key={city.Ref} onClick={(e)=>{
-                        setCity(city.Description);
-                        setUserCity(city);
-                        setCities([])
-                    }}>
-                        {city.Description} - {city.AreaDescription}
-                    </li>)
-                }
-            </ul>
-        */}
-        {
-            departments.length>0 && <ul>
-                {
-                    departments.map((department:NPDepartment) => <li key={department.Ref} onClick={(e)=>{
-                        setDepartment(department.Description)
-                        setUserDepartment(department);
-                        setDepartments([])
-                    }}>
-                        {department.Description}
-                    </li>)
-                }
-            </ul>
-        }
+        <AddressCombobox 
+            value={userDepartment}
+            onChange={(department:NPDepartment) => setUserDepartment(department as NPDepartment)}
+            onClose={() => setDepartment('')}
+            inpValue={(department:NPDepartment | null) => department?.Description ? `${department.Description} - ${'CityDescription' in department ? department.CityDescription : ''}` : ''}
+            setInputValue={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const { value } = e.target
+                setDepartment(value)
+            }}
+            list={departments}
+            disabled={userCity===null || userCity.Description === ""}
+        />
 
     </div>
   )

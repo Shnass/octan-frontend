@@ -1,9 +1,26 @@
 "use client"
 
-export default function Button({ children, onClick, ...props }: { children: React.ReactNode, onClick?: () => void }) {
+import Link from "next/link";
+
+const buttonStyles = "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition cursor-pointer";
+type ButtonProps = {
+    children: React.ReactNode, 
+    onClick?: () => void, 
+    href?: string, 
+    type?: "button" | "submit" | "reset" 
+} & React.ButtonHTMLAttributes<HTMLButtonElement> 
+  & React.AnchorHTMLAttributes<HTMLAnchorElement>
+
+export default function Button({ children, onClick, href, ...props }: ButtonProps) {
     return (
-        <button
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        (href) ? <Link
+            href={href}
+            className={buttonStyles}
+            {...props}
+        >
+            {children}
+        </Link> : <button
+            className={buttonStyles}
             onClick={onClick}
             {...props}
         >

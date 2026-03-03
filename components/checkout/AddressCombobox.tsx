@@ -1,25 +1,41 @@
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
+import { inputStyles } from "@/styles/ui";
 
-export default function AddressCombobox() {
+type AddressComboboxProps<T> = {
+    value: T | null,
+    onChange: (city:T) => void,
+    onClose: () => void,
+    inpValue: (city:T) => string,
+    setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    list: T[]
+    disabled?: boolean
+}
+
+export default function AddressCombobox<T>({value, onChange, onClose, inpValue, setInputValue, list, disabled}: AddressComboboxProps<T>) {
+
+function changeHandler<T>(value:T, onChange:(x:T)=>void, onClose:()=>void) {
+  onChange(value);
+  onClose();
+}
+
   return (
         
         <Combobox 
-            value={initialValue} //userCity 
+            value={value}
             as="div"
             className="w-80"
-            onChange={onChange} //setUserCity
-            onClose={onClose}> //setCity('')
+            onChange={(arg) => changeHandler(arg, onChange, onClose)} 
+            onClose={onClose}> 
             <ComboboxInput
                 aria-label="Assignee"
                 autoComplete="nope"
                 autoCorrect="off"
                 autoCapitalize="none"
                 spellCheck={false}
-                displayValue={(city:NPCity) => city ? `${city.Description} - ${city.AreaDescription}` : ''}
-                onChange={(e)=>{
-                    setCity(e.target.value)
-                }}
-                className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm text-gray-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                displayValue={inpValue} 
+                onChange={setInputValue} 
+                className={inputStyles}
+                disabled={disabled}
             />
 
             
@@ -27,14 +43,14 @@ export default function AddressCombobox() {
                 anchor="bottom"
                 data-open="true"
                 className="mt-1 max-h-60 w-(--input-width) overflow-auto rounded-lg bg-white shadow-lg ring-1 ring-black/5">
-                {cities.map((city:NPCity) => (
-                <ComboboxOption key={city.Ref} value={city}
-                className={({ active }) =>
+                {list.map((item:T, idx) => (
+                <ComboboxOption key={idx} value={item}
+                className={({ focus }) =>
                     `cursor-pointer select-none py-2 px-3 transition ${
-                        active ? "bg-blue-50 text-blue-900" : "text-gray-900"
+                        focus ? "bg-blue-50 text-blue-900" : "text-gray-900"
                     }`
             }>
-                    {city.Description} - {city.AreaDescription}
+                    {inpValue(item as T)}
                 </ComboboxOption>
                 ))}
             </ComboboxOptions>

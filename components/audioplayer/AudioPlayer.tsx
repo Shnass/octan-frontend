@@ -7,8 +7,7 @@ import { useContext } from "react";
 export default function GlobalAudioPlayer() {
   const audioContext = useContext(AudioContext);
   const { currentTrack, isPlaying, playButtonHandler, play, pause } = audioContext;
-
-  console.log(currentTrack);
+  if (currentTrack === null) return null;
 
   return <div className="fixed bottom-10 right-10 bg-gray-800 text-white p-4 flex items-center gap-4 z-50 rounded-3xl align-middle">
     {currentTrack!==null && 
