@@ -6,6 +6,5 @@ type PageProps = {
 }
 
 export default async function Store({searchParams, params} : PageProps) {
-    console.log(params, searchParams)
     return <StorePage searchParams={searchParams} routeParams={params} />
 }

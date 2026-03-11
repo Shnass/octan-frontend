@@ -1,3 +1,5 @@
+"use client";
+
 import { Release } from "@/types/release";
 import { useCartStore } from "@/app/store/cart.store";
 import CartItem from "@/components/cart/CartItem";

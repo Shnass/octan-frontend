@@ -23,7 +23,7 @@ function changeHandler<T>(value:T, onChange:(x:T)=>void, onClose:()=>void) {
         <Combobox 
             value={value}
             as="div"
-            className="w-80"
+            className="max-w-80 w-full"
             onChange={(arg) => changeHandler(arg, onChange, onClose)} 
             onClose={onClose}> 
             <ComboboxInput

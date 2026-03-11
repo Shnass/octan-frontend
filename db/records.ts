@@ -1,13 +1,15 @@
 import pool from "@/lib/dbConnect";
-import { type QueryResult, type QueryResultRow } from "pg";
+import { type QueryResult } from "pg";
 import { Release } from "@/types/release";
 
 
 type ListRecordsParams = {
   genre?: string | null;
-  search?: string | null;
   page?: number;
   perPage?: number;
+  artist?: string | null;
+  label?: string | null;
+  query?: string | null;
 };
 type QueryReleaseResponse = Release & {pages:number};
 
@@ -29,7 +31,11 @@ const tracklistQuery = `json_agg(
 
 
 export default async function listRecords(params: ListRecordsParams) {
-    const { genre, search, page = 1, perPage = perPageDefault } = params;
+    const { genre, query: search, page = 1, perPage = perPageDefault, artist = '', label = '' } = params;
+
+    console.log('Listing records with params:', { genre, search, page, perPage, artist, label });
+
+
     const offset = (page - 1) * perPage;
     const totalPagesQuery = `
       CEILING(COUNT(*) OVER () / ${perPage}) AS pages
@@ -49,6 +55,28 @@ export default async function listRecords(params: ListRecordsParams) {
         LIMIT $2 OFFSET $3;`, [genre, perPage, offset]);
     }
 
+    if(artist) {
+        result = await pool.query(`SELECT ${totalPagesQuery}, ${generalQuery}, 
+        ${tracklistQuery}
+        FROM records r
+        LEFT JOIN tracks t ON t.record_id = r.id
+        WHERE r.artist ILIKE $1
+        GROUP BY r.id, r.name, r.artist, r.year
+        ORDER BY r.year DESC
+        LIMIT $2 OFFSET $3;`, [`%${artist}%`, perPage, offset]);
+    }
+
+     if(label) {
+        result = await pool.query(`SELECT ${totalPagesQuery}, ${generalQuery}, 
+        ${tracklistQuery}
+        FROM records r
+        LEFT JOIN tracks t ON t.record_id = r.id
+        WHERE r.label ILIKE $1
+        GROUP BY r.id, r.name, r.artist, r.year
+        ORDER BY r.year DESC
+        LIMIT $2 OFFSET $3;`, [`%${label}%`, perPage, offset]);
+    }
+
     if(search) {
 
       console.log('Searching for:', search);
@@ -66,7 +94,7 @@ export default async function listRecords(params: ListRecordsParams) {
         LIMIT $2 OFFSET $3;`, [`%${search}%`, perPage, offset]);
     }
 
-    if(!genre && !search){
+    if(!genre && !search && !artist && !label){
       result = await pool.query(
           `SELECT 
           ${totalPagesQuery}, 
@@ -89,7 +117,7 @@ export default async function listRecords(params: ListRecordsParams) {
 }
 
 export async function getRecord(id: number){
-        const result = await pool.query(`SELECT ${generalQuery}, r.label, r.sleeve, r.media, r.country, r.catalog_id, r.description,
+        const result = await pool.query(`SELECT ${generalQuery}, r.label, r.sleeve, r.year, r.media, r.country, r.catalog_id, r.description,
         ${tracklistQuery}
         FROM records r
         LEFT JOIN tracks t ON t.record_id = r.id

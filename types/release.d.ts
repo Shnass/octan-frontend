@@ -6,6 +6,7 @@ export type Release = {
     artist: string;
     genre: string[];
     country: string;
+    year: number;
     price: number;
     cover: string;
     label: string;

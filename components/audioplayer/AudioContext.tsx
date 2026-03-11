@@ -10,6 +10,8 @@ type AudioContextType = {
   isPlaying: boolean;
   playButtonHandler: (release: Release, track: Track, src: string) => void;
   play: (src: string) => void;
+  fwd: (release: Release, track: Track) => void;
+  bwd: (release: Release, track: Track) => void;
   pause: () => void;
 }
 
@@ -18,6 +20,8 @@ const AudioContext = createContext<AudioContextType>({
   isPlaying: false,
   playButtonHandler: () => {},
   play: () => {},
+  fwd: () => {},
+  bwd: () => {},
   pause: () => {},
 });
 

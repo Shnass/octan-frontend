@@ -2,6 +2,8 @@
 import { useForm } from "react-hook-form";
 import InputComplex from "../general/InputComplex";
 import Button from "../general/Button";
+import Link from "next/link";
+import H2 from "../general/H2";
 
 export default function PersonalData() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -10,8 +12,8 @@ export default function PersonalData() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+        <H2>Personal Data</H2>
         <InputComplex 
             id={"name"}
             label={"First Name"}
@@ -50,6 +52,12 @@ export default function PersonalData() {
             errorShown={!!errors.phone}
         />
         <InputComplex 
+            id={"subscription"}
+            label={"I want to receive the newsletter"}
+            registration={register("subscription", { required: false })}
+            type={"checkbox"}
+        />
+        <InputComplex 
             id={"personalData"}
             label={"I have read and agree to the Terms and Conditions"}
             registration={register("personalData", { required: true })}
@@ -57,15 +65,10 @@ export default function PersonalData() {
             errorShown={!!errors.personalData}
             type={"checkbox"}
         />
-        <InputComplex 
-            id={"subscription"}
-            label={"I want to receive the newsletter"}
-            registration={register("subscription", { required: false })}
-            type={"checkbox"}
-        />
-
-        <Button type="submit">Submit</Button>
-      </form>
-    </div>
+        <div className="flex justify-between items-center">
+            <Link href="/cart">Back to Cart</Link>
+            <Button type="submit">Submit</Button>
+        </div>
+    </form>
   )
 }

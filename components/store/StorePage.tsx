@@ -1,26 +1,25 @@
-import GenreNavi from "./GenreNavi";
 import StoreItemsList from "./StoreItemsList";
-import { genres } from "@/data/genres";
 import listRecords from "@/db/records";
 
 export default async function StorePage(
     {searchParams={}, routeParams={}}:
     {
-      searchParams?: {page?:number},
+      searchParams?: {page?:number, q?:string},
       routeParams?: {slug?:string}
     }
 ) {
-  const queryParams = searchParams;
-  const {slug} = routeParams;
+  const queryParams = await searchParams;
+  const {slug} = await routeParams;
   const currentPage = Number(queryParams?.page || 1)
+  const query = queryParams?.q || "";
 
-  const queryResult = await listRecords({page:currentPage, genre: slug});
+  
+  const queryResult = await listRecords({page:currentPage, genre: slug, query});
   if(!queryResult) return <div>Error loading records</div>;
 
   const { releases, pages } = queryResult;
   return (
     <>
-      <GenreNavi genres={genres} />
       <StoreItemsList items={releases} currentPage={currentPage} pages={pages}/>
     </>
   );

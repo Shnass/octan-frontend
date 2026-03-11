@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
+import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, Input } from '@headlessui/react'
 import { NPCity, NPDepartment, NPFetchArguments } from '@/types/np'
 import AddressCombobox from "./AddressCombobox";
+import InputComplex from "../general/InputComplex";
 
 // to do: implement useQuery
 
@@ -79,7 +80,7 @@ export default function NP() {
 
   return (
     <div>
-
+        <InputComplex label="City">
         <AddressCombobox 
             value={userCity}
             onChange={(city:NPCity) => setUserCity(city as NPCity)}
@@ -92,7 +93,9 @@ export default function NP() {
             list={cities}
             disabled={false}
         />
+        </InputComplex>
 
+        <InputComplex label="Department">
         <AddressCombobox 
             value={userDepartment}
             onChange={(department:NPDepartment) => setUserDepartment(department as NPDepartment)}
@@ -105,6 +108,7 @@ export default function NP() {
             list={departments}
             disabled={userCity===null || userCity.Description === ""}
         />
+        </InputComplex>
 
     </div>
   )

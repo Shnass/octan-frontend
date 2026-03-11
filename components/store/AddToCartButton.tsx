@@ -5,12 +5,14 @@ import { Release } from "../../types/release";
 import { useCartStore } from "../../app/store/cart.store";
 
 export default function AddToCartButton({ item }: { item: Release }) {
-    const addToCart = useCartStore((state) => state.addToCart);
+    const cartState = useCartStore();
+    const { addToCart, items } = cartState;
+    const isInCart = items.some(cartItem => cartItem.id === item.id);
+
 
     function handleAddToCart(item: Release) {
         addToCart(item);
-        console.log("Current cart items:",  useCartStore.getState().items);
     }
 
-    return <Button onClick={() => handleAddToCart(item)}>Add to Cart</Button>
+    return <Button disabled={isInCart} onClick={() => handleAddToCart(item)}>Add to Cart</Button>
 }

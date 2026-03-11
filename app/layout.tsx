@@ -5,6 +5,7 @@ import Container from "@/components/layout/Container";
 import type { Metadata } from "next";
 import GlobalAudioShell from "@/components/audioplayer/GlobalAudioShell";
 import AudioContextProvider from "@/components/audioplayer/AudioContextProvider";
+import CookiesBar from "@/components/cookies/CookiesBar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,6 +26,7 @@ export default function RootLayout({
         </div>
         <GlobalAudioShell />
         <Footer />
+        <CookiesBar />
       </Container>
     </AudioContextProvider>
   );
