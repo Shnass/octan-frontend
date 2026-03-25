@@ -4,6 +4,8 @@ import { genres } from "@/data/genres";
 import HeaderCart from "../store/HeaderCart";
 import Logo from "./Logo";
 import Navi from "./Navi";
+import { Suspense } from "react"
+    
 
 export default function Header() {
     return (
@@ -14,7 +16,9 @@ export default function Header() {
           <div className="flex justify-between ">
             <Logo />
             <GenreNavi genres={genres} />
-            <SearchClient />
+            <Suspense fallback={<div>Loading...</div>}>
+              <SearchClient />
+            </Suspense>
             <HeaderCart />
           </div>
         </header>
