@@ -9,7 +9,7 @@ import {
   WhatsappIcon,
 } from 'react-share';
 
-const ShareButtons = ({ title }) => {
+const ShareButtons = ({ title }:{title:string}) => {
   // Get the current page URL
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
