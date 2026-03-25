@@ -3,12 +3,21 @@
 import Script from "next/script";
 import { useCartStore } from "@/app/store/cart.store";
 import Button from "@/components/general/Button";
+import { useOrderStore } from "@/app/store/order.store";
 
-export default  function WayForPay() {
+export default function WayForPay() {
 
 const cartState = useCartStore();
+const orderState = useOrderStore();
+const { writeOrderToDB } = orderState;
+
+const { clearCart } = cartState;
 const { totalPrice, totalItems } = cartState.getSummary();
 
+
+const processOrder = async () => {
+  await writeOrderToDB();
+}
 
 const pay = async () => {
   const order = {
@@ -42,6 +51,8 @@ const pay = async () => {
     },
     (success: any) => {
       console.log("WAYFORPAY SUCCESS", success);
+      writeOrderToDB();
+
     },
     (error: any) => {
       console.error("WAYFORPAY ERROR", error);

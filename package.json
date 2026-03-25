@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
+    "@paypal/react-paypal-js": "^9.0.1",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
     "next": "16.0.7",

@@ -33,9 +33,6 @@ const tracklistQuery = `json_agg(
 export default async function listRecords(params: ListRecordsParams) {
     const { genre, query: search, page = 1, perPage = perPageDefault, artist = '', label = '' } = params;
 
-    console.log('Listing records with params:', { genre, search, page, perPage, artist, label });
-
-
     const offset = (page - 1) * perPage;
     const totalPagesQuery = `
       CEILING(COUNT(*) OVER () / ${perPage}) AS pages
@@ -78,8 +75,6 @@ export default async function listRecords(params: ListRecordsParams) {
     }
 
     if(search) {
-
-      console.log('Searching for:', search);
 
         result = await pool.query(`SELECT ${totalPagesQuery}, ${generalQuery}, 
         ${tracklistQuery}

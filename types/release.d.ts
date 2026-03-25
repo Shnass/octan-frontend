@@ -18,3 +18,10 @@ export type Release = {
     description: string;
     tracklist: Track[];
 }
+
+export type ReleaseShort = {
+    id: number;
+    name: string;
+    artist: string;
+    price: number;
+}

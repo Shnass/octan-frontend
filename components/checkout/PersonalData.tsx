@@ -1,14 +1,47 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { useOrderStore } from "@/app/store/order.store";
 import InputComplex from "../general/InputComplex";
 import Button from "../general/Button";
 import Link from "next/link";
 import H2 from "../general/H2";
+import { Person } from "@/types/person";
+import { useEffect } from "react";
+import { useRouter } from 'next/navigation';
+
+import { useCartStore } from "@/app/store/cart.store";
+
+
 
 export default function PersonalData() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+    
+  const router = useRouter();
+
+  const orderState = useOrderStore();
+  const cartState = useCartStore();
+  const { items, getSummary } = cartState;
+  const { order, setOrderValue, writeOrderToDB} = orderState;
+  const {totalPrice} = getSummary();
+  
+  const { name, lastName, email, phone } = order.buyer;
+  const { register, handleSubmit, formState: { errors } } = useForm<Person>({
+    defaultValues:{
+        name, lastName, email, phone
+    }
+  });
+
+
+  useEffect(()=>{
+    console.log(order)
+  },[order])
+
+  const onSubmit = (data: Person) => {
+    const buyer = data;
+    setOrderValue('buyer',buyer);
+    setOrderValue('items', items);
+    setOrderValue('sum', totalPrice);
+    //writeOrderToDB();
+    router.push('/checkout?stage=shipping');
   };
 
   return (
@@ -45,24 +78,24 @@ export default function PersonalData() {
             id={"phone"}
             label={"Phone"}
             registration={register("phone", { required: false, pattern: {
-                value: /^\+?[1-9]\d{1,14}$/,
+                value: /^\+?[0-9]\d{1,14}$/,
                 message: "Invalid phone number"
             }})}
             error={errors.phone?.message as string}
             errorShown={!!errors.phone}
         />
         <InputComplex 
-            id={"subscription"}
+            id={"subscriptionOptIn"}
             label={"I want to receive the newsletter"}
-            registration={register("subscription", { required: false })}
+            registration={register("subscriptionOptIn", { required: false })}
             type={"checkbox"}
         />
         <InputComplex 
-            id={"personalData"}
+            id={"termsOptIn"}
             label={"I have read and agree to the Terms and Conditions"}
-            registration={register("personalData", { required: true })}
+            registration={register("termsOptIn", { required: true })}
             error={"You must agree to the terms and conditions"}
-            errorShown={!!errors.personalData}
+            errorShown={!!errors.termsOptIn}
             type={"checkbox"}
         />
         <div className="flex justify-between items-center">

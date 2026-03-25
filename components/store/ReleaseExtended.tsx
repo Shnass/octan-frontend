@@ -7,6 +7,7 @@ import Link from "next/link";
 import listRecords from "@/db/records";
 import StoreItemsList from "./StoreItemsList";
 import SocialShare from "../general/SocialShare"
+import PlayButton from "../audioplayer/PlayButton";
 //import GeneratedDescription from "./GeneratedDescription";
 
 
@@ -25,12 +26,20 @@ export default async function ReleaseExtended({item}: {item: Release}) {
     <div className="flex gap-8">
       <div className="w-[400]">
         <ReleaseImage src={item.cover} alt={item.name} width={400} height={400} />
+
+        <div>
+        {item.tracklist.map((track, index) => (
+            track.url && <PlayButton key={index} src={`https://audio.octan.online/${track.url}`} track={track} release={item}/>
+        ))}
+        </div>
+        
+
       </div>
       <div className="grow">
         <H1>{item.artist}</H1>
         <H2>{item.name}</H2>
 
-        <div className="flex gap-5 my-4">
+        <div className="flex gap-5 my-4 flex-wrap">
           <div className="basis-120">
             <div className="mb-4">
               {item.label && <p>Label: {item.label}</p>}
@@ -50,6 +59,11 @@ export default async function ReleaseExtended({item}: {item: Release}) {
               ))}
             </ul>
           </div>
+          {item.description && 
+            <div className="w-full" dangerouslySetInnerHTML={{__html: item.description}}>
+              
+            </div>
+          }
         </div>
 
         <SocialShare title={`${item.artist} – ${item.name}`} />

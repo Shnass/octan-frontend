@@ -1,7 +1,7 @@
-import WayForPay from "@/components/checkout/WayForPay";
 import PersonalData from "@/components/checkout/PersonalData";
 import Delivery from "@/components/checkout/Delivery";
 import OrderSummary from "@/components/checkout/OrderSummary";
+import Payment from "@/components/checkout/Payment";
 
 type PageProps = {
   searchParams: Promise<{
@@ -19,7 +19,7 @@ export default async function CheckoutPage({searchParams}: PageProps) {
       <div className="w-2/5">
         {stage === "personal-data" && <PersonalData />}
         {stage === "shipping" && <Delivery />}
-        {stage === "payment" && <WayForPay />}
+        {stage === "payment" && <Payment />}
       </div>
       <div className="w-3/5">
         <OrderSummary />
