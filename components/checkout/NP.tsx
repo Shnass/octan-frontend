@@ -84,7 +84,7 @@ export default function NP() {
             value={userCity}
             onChange={(city:NPCity) => setUserCity(city as NPCity)}
             onClose={() => setCity('')}
-            inpValue={(city:NPCity | null) => city?.Description ? `${city.Description} - ${'AreaDescription' in city ? city.AreaDescription : city.CityDescription}` : ''}
+            inpValue={(city:NPCity | null) => city?.Description ? `${city.Description} - ${'AreaDescription' in city ? city.AreaDescription : ''}${'CityDescription' in city ? city.CityDescription : ''}` : ''}
             setInputValue={(e: React.ChangeEvent<HTMLInputElement>) => {
                 const { value } = e.target
                 setCity(value)
