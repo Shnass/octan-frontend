@@ -24,7 +24,7 @@ function changeHandler<T>(value:T, onChange:(x:T)=>void, onClose:()=>void) {
             value={value}
             as="div"
             className="max-w-80 w-full"
-            onChange={(arg) => changeHandler(arg, onChange, onClose)} 
+            onChange={(arg) => changeHandler(arg as T, onChange, onClose)}  // TODO: replace 'as T' with something more bulletproof
             onClose={onClose}> 
             <ComboboxInput
                 aria-label="Assignee"
