@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import Image from "next/image"
+import { Suspense } from "react"
 
 export default function SearchClient() {
   const router = useRouter()
@@ -17,11 +18,13 @@ export default function SearchClient() {
   }
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <form onSubmit={(e) => {e.preventDefault(); submitSearch();}} className="flex items-center border mr-6 px-2 rounded ml-auto">
       <input value={query} onChange={(e) => setQuery(e.target.value)} />
       <button type="submit">
         <Image src="/search.svg" alt="Search" width={24} height={24} />
       </button>
     </form>
+    </Suspense>
   )
 }
