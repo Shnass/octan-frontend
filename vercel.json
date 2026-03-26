@@ -2,7 +2,7 @@
     "crons": [
         {
             "path": "/api/cron/currency-rates",
-            "schedule": "26 11 * * *"
+            "schedule": "28 11 * * *"
         }
     ]
 }
