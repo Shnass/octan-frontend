@@ -17,6 +17,8 @@ export async function GET(req: Request) {
     const USD = data.quotes.EURUSD;
     const GBP = data.quotes.EURGBP;
 
+    console.log(UAH, USD, GBP);
+
   // save to DB
     await pool.query(`
         UPDATE currency_rates

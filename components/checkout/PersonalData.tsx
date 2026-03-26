@@ -7,7 +7,7 @@ import Link from "next/link";
 import H2 from "../general/H2";
 import { Person } from "@/types/person";
 import { useEffect } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 
 import { useCartStore } from "@/app/store/cart.store";
 
@@ -20,10 +20,12 @@ export default function PersonalData() {
   const orderState = useOrderStore();
   const cartState = useCartStore();
   const { items, getSummary } = cartState;
-  const { order, setOrderValue, writeOrderToDB} = orderState;
+
+  const { buyer, order, setOrderValue, writeOrderToDB} = orderState;
   const {totalPrice} = getSummary();
   
-  const { name, lastName, email, phone } = order.buyer;
+  const { name, lastName, email, phone } = buyer;
+
   const { register, handleSubmit, formState: { errors } } = useForm<Person>({
     defaultValues:{
         name, lastName, email, phone
@@ -32,8 +34,10 @@ export default function PersonalData() {
 
 
   useEffect(()=>{
-    console.log(order)
-  },[order])
+    if(!items.length){
+        redirect('/cart');
+    }    
+  },[items])
 
   const onSubmit = (data: Person) => {
     const buyer = data;

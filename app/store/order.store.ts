@@ -3,9 +3,11 @@ import { Order } from "@/types/order";
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { create } from "zustand";
 import createOrder from "@/db/orders";
+import { Person } from "@/types/person";
 
 interface OrderState {
     order: Order;
+    buyer: Person;
     setOrderValue: <K extends keyof Order>(key: K, value: Order[K]) => void;
     writeOrderToDB: () => void;
     processStock: (items: Release[]) => void;
@@ -24,6 +26,7 @@ export const useOrderStore = create<OrderState>()(persist((set, get) => ({
         status: 'pending',
         sum: 0       
     },
+    buyer:{},
     setOrderValue: (key, value) =>
         set((state) => ({
         order: {
@@ -43,5 +46,6 @@ export const useOrderStore = create<OrderState>()(persist((set, get) => ({
     }
 }), {
     name: 'order-storage',
+    partialize: (state) => ({ buyer: state.order.buyer }),
     storage: createJSONStorage(() => localStorage),
 }))
