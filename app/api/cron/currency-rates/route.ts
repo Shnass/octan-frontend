@@ -1,7 +1,8 @@
 import pool from "@/lib/dbConnect";
 
 export async function GET(req: Request) {
-  if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
+  console.log([...req.headers.entries()]);
+  if (req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", { status: 401 });
   }
 
