@@ -14,9 +14,9 @@ export async function GET(req: Request) {
         throw new Error("Invalid exchange rate response");
     }
 
-    const UAH = data.quotes.EURUAH;
-    const USD = data.quotes.EURUSD;
-    const GBP = data.quotes.EURGBP;
+    const UAH = data.quotes.EURUAH.toFixed(2);
+    const USD = data.quotes.EURUSD.toFixed(2);
+    const GBP = data.quotes.EURGBP.toFixed(2);
 
     console.log(UAH, USD, GBP);
 
