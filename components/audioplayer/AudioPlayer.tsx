@@ -1,7 +1,7 @@
 "use client";
 
 import AudioContext from "./AudioContext";
-import ReleaseImage from "../store/ReleaseImage";
+import ReleaseImage from "../shop/ReleaseImage";
 import { useContext } from "react";
 import Image from "next/image";
 

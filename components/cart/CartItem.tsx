@@ -1,6 +1,7 @@
 import { Release } from "@/types/release";
 import { useCartStore } from "@/app/store/cart.store";
-import ReleaseImage from "../store/ReleaseImage";
+import ReleaseImage from "../shop/ReleaseImage";
+import Price from "../shop/Price";
 
 
 export default function CartItem({ item }: { item: Release }) {
@@ -13,7 +14,7 @@ export default function CartItem({ item }: { item: Release }) {
             </div>
             <div className="grow">
                 <h2>{item.artist} – {item.name}</h2>
-                <p>Price: ${item.price}</p>
+                <p>Price: <Price prices={item.prices} /></p>
             </div>
             <div>
                 <button onClick={()=>cartState.removeFromCart(item.id)}>Remove from Cart</button>

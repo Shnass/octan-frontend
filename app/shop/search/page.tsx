@@ -1,4 +1,4 @@
-import StorePage from "@/components/store/StorePage";
+import StorePage from "@/components/shop/StorePage";
 
 type PageProps = {
   searchParams: { page?: number | undefined; q?: string | undefined }

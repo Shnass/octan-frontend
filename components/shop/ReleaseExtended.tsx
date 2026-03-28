@@ -8,6 +8,7 @@ import listRecords from "@/db/records";
 import StoreItemsList from "./StoreItemsList";
 import SocialShare from "../general/SocialShare"
 import PlayButton from "../audioplayer/PlayButton";
+import Price from "./Price";
 //import GeneratedDescription from "./GeneratedDescription";
 
 
@@ -48,8 +49,8 @@ export default async function ReleaseExtended({item}: {item: Release}) {
               {item.media && <p>Media Condition: {item.media}</p>}
               {item.sleeve && <p>Sleeve Condition: {item.sleeve}</p>}
             </div>
-            <p className="text-2xl font-extrabold my-4">${item.price}</p>
-            <AddToCartButton item={item} />
+            <p className="text-2xl font-extrabold my-4"><Price prices={item.prices} /></p>
+            {item.status === 'sold' ? 'Out of Stock' : <AddToCartButton item={item} />} 
           </div>
           <div className="grow">
             <H2>Tracklist:</H2>

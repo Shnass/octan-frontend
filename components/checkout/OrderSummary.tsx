@@ -4,6 +4,7 @@ import H2 from "../general/H2"
 import { useCartStore } from "@/app/store/cart.store";
 import { Release } from "@/types/release";
 import SummaryItem from "./SummaryItem";
+import Price from "../shop/Price";
 
 
 export default function OrderSummary() {
@@ -21,7 +22,9 @@ export default function OrderSummary() {
         </div>
         <div className="justify-between flex mt-1">
             <span className="text-md text-gray-500">Total price</span>
-            <span className="text-md text-gray-500">${totalPrice.toFixed(2)}</span>
+            <span className="text-md text-gray-500">
+                <Price prices={totalPrice} />
+            </span>
         </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import pool from "@/lib/dbConnect";
 import { type QueryResult } from "pg";
-import { Release } from "@/types/release";
-
+import { Release, ReleaseFetched } from "@/types/release";
+import setCurrencies from "@/services/setCurrencies"; 
 
 type ListRecordsParams = {
   genre?: string | null;
@@ -11,9 +11,9 @@ type ListRecordsParams = {
   label?: string | null;
   query?: string | null;
 };
-type QueryReleaseResponse = Release & {pages:number};
+type QueryReleaseResponse = ReleaseFetched & {pages:number};
 
-const generalQuery = `r.id, r.name, r.artist, r.year, r.cover, r.price`;
+const generalQuery = `r.id, r.name, r.artist, r.year, r.cover, r.price, r.status`;
 const perPageDefault = 20;
 
 const tracklistQuery = `json_agg(
@@ -105,14 +105,15 @@ export default async function listRecords(params: ListRecordsParams) {
     if(result !== null){
       const { rows } : {rows: QueryReleaseResponse[]} = result; 
       const pages = rows[0]?.pages || 1;
-      const releases:Release[] = rows.map(({pages, ...rest}) => rest);
+      const releasesFetched = rows.map(({pages, ...rest}) => rest);
+      const releases = await Promise.all(releasesFetched.map(r=>setCurrencies(r)));
       return { releases, pages };
     }
 
 }
 
 export async function getRecord(id: number){
-        const result = await pool.query(`SELECT ${generalQuery}, r.label, r.sleeve, r.year, r.media, r.country, r.catalog_id, r.description,
+        const result = await pool.query(`SELECT ${generalQuery}, r.label, r.sleeve, r.year, r.media, r.country, r.catalog_id, r.description, r.status,
         ${tracklistQuery}
         FROM records r
         LEFT JOIN tracks t ON t.record_id = r.id

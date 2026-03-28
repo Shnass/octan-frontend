@@ -1,6 +1,7 @@
+import { Prices } from './prices';
 import { Track } from './track';
 
-export type Release = {
+export type ReleaseFetched = {
     id: number;
     name: string;
     artist: string;
@@ -17,6 +18,11 @@ export type Release = {
     formats: string[];
     description: string;
     tracklist: Track[];
+    status: string // TODO Literals
+}
+
+export type Release = ReleaseFetched & {
+    prices:Prices
 }
 
 export type ReleaseShort = {

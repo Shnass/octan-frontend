@@ -1,5 +1,5 @@
-import GenreNavi from "@/components/store/GenreNavi";
-import StoreItemsList from "@/components/store/StoreItemsList";
+import GenreNavi from "@/components/shop/GenreNavi";
+import StoreItemsList from "@/components/shop/StoreItemsList";
 import { genres } from "@/data/genres";
 import listRecords from "@/db/records";
 import { Release } from "@/types/release";

@@ -6,6 +6,7 @@ import CartItem from "@/components/cart/CartItem";
 import EmptyCart from "@/components/cart/EmptyCart";
 import Button from "@/components/general/Button";
 import Link from "next/link";
+import Price from "@/components/shop/Price";
 
 export default function CartPage() {
     const cartState = useCartStore();
@@ -19,7 +20,7 @@ export default function CartPage() {
                 {items.map((item, index: number) =><CartItem item={item} key={index}/>)}
                 <div className="justify-end flex">
                     <span className="text-xl font-bold text-right">
-                        Total: ${totalPrice.toFixed(2)} 
+                        Total: <Price prices={totalPrice}/>
                         <small className="font-normal">/ {totalItems} items</small>
                     </span>
                 </div>

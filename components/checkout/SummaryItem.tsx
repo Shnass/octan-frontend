@@ -1,5 +1,6 @@
 import { Release } from "@/types/release";
-import ReleaseImage from "../store/ReleaseImage";
+import ReleaseImage from "../shop/ReleaseImage";
+import Price from "../shop/Price";
 
 export default function CartItem({ item }: { item: Release }) {
     return (
@@ -13,7 +14,7 @@ export default function CartItem({ item }: { item: Release }) {
                 <p className="text-sm text-gray-500">Sleeve condition: {item.sleeve}</p>
             </div>
             <div className="flex justify-end items-end gap-2 text-sm">
-                <b>${item.price}</b>
+                <b><Price prices={item.prices} /></b>
             </div>
         </div>
     );
