@@ -7,7 +7,7 @@ export type Order = {
     items: Release[] | ReleaseShort[];
     buyer: Person;
     address?: string;
-    country?: string;
+    country: string;
     city?: string;
     zipcode?: string;
     np?: number;

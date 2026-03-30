@@ -20,9 +20,6 @@ export async function POST(request: Request) {
         methodProperties,
     })
 
-    console.log('Received request with body: ', body)
-    console.log('Constructed bodyArgs: ', bodyArgs)
-
     const response = await fetch("https://api.novaposhta.ua/v2.0/json/", {
     method: "POST",
     headers: {
@@ -30,10 +27,6 @@ export async function POST(request: Request) {
     },
     body: bodyArgs
     });
-
-    // "calledMethod": "getAreas",
-    // "calledMethod": "getCities",
-    // "calledMethod": "getWarehouses",
 
     const data = await response.json();
     return new Response(JSON.stringify(data), { status: 200 });

@@ -6,14 +6,30 @@ import Button from "../general/Button";
 import Link from "next/link";
 import H2 from "../general/H2";
 import { Person } from "@/types/person";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, redirect } from 'next/navigation';
 
 import { useCartStore } from "@/app/store/cart.store";
 
+async function getQuotas(){
+    const cities = await fetch("/api/westernbid", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const response = await cities.json();
+    console.log(response);
+    return response;
+}
 
-
-export default function PersonalData() {
+export default function PersonalData(){
+  const [data, setData] = useState(null)
+  useEffect(()=>{
+    console.log('kek')
+    getQuotas();
+    console.log('shrek')
+  }, [])
     
   const router = useRouter();
 
@@ -23,6 +39,8 @@ export default function PersonalData() {
 
   const { buyer, order, setOrderValue, writeOrderToDB} = orderState;
   const {totalPrice} = getSummary();
+
+
   
   const { name, lastName, email, phone } = buyer;
 
@@ -31,6 +49,8 @@ export default function PersonalData() {
         name, lastName, email, phone
     }
   });
+
+  
 
 
   useEffect(()=>{

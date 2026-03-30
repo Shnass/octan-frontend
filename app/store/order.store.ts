@@ -11,12 +11,15 @@ interface OrderState {
     setOrderValue: <K extends keyof Order>(key: K, value: Order[K]) => void;
     writeOrderToDB: () => void;
     processStock: (items: Release[]) => void;
+    isPersonalDataComplete: () => boolean;
+    isDeliveryDataComplete: () => void;
 }
 
 export const useOrderStore = create<OrderState>()(persist((set, get) => ({
     order: {
         items: [],
         address: '',
+        country:'',
         buyer: {},
         shipping: {
             name:'pickup',
@@ -43,6 +46,20 @@ export const useOrderStore = create<OrderState>()(persist((set, get) => ({
         if(order !== null){
             console.log(order.items)
         }
+    },
+    isPersonalDataComplete: () => {
+        const {order} = get();
+        const {buyer} = order;
+
+        return Boolean(
+            buyer.email?.trim() &&
+            buyer.name?.trim() &&
+            buyer.lastName?.trim() &&
+            buyer.termsOptIn
+        )
+    },
+    isDeliveryDataComplete: () => {
+        console.log('kek')
     }
 }), {
     name: 'order-storage',
