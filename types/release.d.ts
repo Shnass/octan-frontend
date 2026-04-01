@@ -5,7 +5,7 @@ export type ReleaseFetched = {
     id: number;
     name: string;
     artist: string;
-    genre: string[];
+    genre: Array<{id:number,name:string,slug:string}>;
     country: string;
     year: number;
     price: number;

@@ -11,26 +11,8 @@ import { useRouter, redirect } from 'next/navigation';
 
 import { useCartStore } from "@/app/store/cart.store";
 
-async function getQuotas(){
-    const cities = await fetch("/api/westernbid", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-    const response = await cities.json();
-    console.log(response);
-    return response;
-}
 
 export default function PersonalData(){
-  const [data, setData] = useState(null)
-  useEffect(()=>{
-    console.log('kek')
-    getQuotas();
-    console.log('shrek')
-  }, [])
-    
   const router = useRouter();
 
   const orderState = useOrderStore();
@@ -50,14 +32,6 @@ export default function PersonalData(){
     }
   });
 
-  
-
-
-  useEffect(()=>{
-    if(!items.length){
-        redirect('/cart');
-    }    
-  },[items])
 
   const onSubmit = (data: Person) => {
     const buyer = data;

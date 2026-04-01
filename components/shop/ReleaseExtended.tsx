@@ -9,19 +9,20 @@ import StoreItemsList from "./StoreItemsList";
 import SocialShare from "../general/SocialShare"
 import PlayButton from "../audioplayer/PlayButton";
 import Price from "./Price";
-//import GeneratedDescription from "./GeneratedDescription";
+import GeneratedDescription from "./GeneratedDescription";
 
 
 
 export default async function ReleaseExtended({item}: {item: Release}) {
-
+  console.log(item.genre);
   const byArtist = await listRecords({artist: item.artist, perPage: 4});
   const byLabel = await listRecords({label: item.label, perPage: 4});
 
-//  const description = await GeneratedDescription(item);
-  //const descriptionContent = await description.JSON();
-
-  //console.log(description);
+  const description = await GeneratedDescription(item);
+  if(description) {
+    const descriptionContent = await description.JSON();
+    console.log(description);
+  }
 
   return (
     <div className="flex gap-8">
@@ -33,12 +34,18 @@ export default async function ReleaseExtended({item}: {item: Release}) {
             track.url && <PlayButton key={index} src={`https://audio.octan.online/${track.url}`} track={track} release={item}/>
         ))}
         </div>
+
+
         
 
       </div>
       <div className="grow">
         <H1>{item.artist}</H1>
         <H2>{item.name}</H2>
+
+        <div className="flex flex-wrap gap-1.5">
+          {item.genre.map((g,i)=><span className="text-xs bg-blue-500 rounded-3xl text-white px-2 py-0.5" key={i}>{g.name}</span>)}
+        </div>
 
         <div className="flex gap-5 my-4 flex-wrap">
           <div className="basis-120">

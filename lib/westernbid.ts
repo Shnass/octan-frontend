@@ -1,19 +1,15 @@
-export async function removeReleaseFromDiscogs(id:number){
-    const response = await fetch("/api/discogs/", {
+export async function getWBQuotas(){
+    const response = await fetch("/api/westernbid", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            _id: id
-        })
+        }
     })
 
     if (!response.ok) {
         throw new Error("Failed to remove Discogs listing");
     }
 
-
     const data = await response.json();
-    return data.r===204
+    return data;
 }

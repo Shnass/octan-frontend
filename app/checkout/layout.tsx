@@ -1,4 +1,5 @@
 import { PaypalProvider } from "@/components/checkout/PayPalProvider";
+import RequireNonEmptyCart from "@/components/checkout/RequireNonEmptyCart"
 
 export default function layout({
   children,
@@ -6,8 +7,10 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <PaypalProvider>
-        {children}
-    </PaypalProvider>
+    <RequireNonEmptyCart>
+      <PaypalProvider>
+          {children}
+      </PaypalProvider>
+    </RequireNonEmptyCart>
   )
 }

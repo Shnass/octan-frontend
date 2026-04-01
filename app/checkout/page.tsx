@@ -18,13 +18,13 @@ export default async function CheckoutPage({searchParams}: PageProps) {
   return (
     <div className="flex gap-12">
       <div className="w-2/5">
-        {stage === "personal" && <PersonalData />}
         {stage === "shipping" && 
           <RequirePersonalInfo><Delivery /></RequirePersonalInfo>
         }
         {stage === "payment" && 
           <RequirePersonalInfo><Payment /></RequirePersonalInfo>
         }
+        {stage !== "shipping" && stage !== "payment" && <PersonalData />}
       </div>
       <div className="w-3/5">
         <OrderSummary />

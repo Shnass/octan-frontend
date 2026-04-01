@@ -27,6 +27,12 @@ const tracklistQuery = `json_agg(
       ORDER BY t.id
     ) AS tracklist`;
 
+const genreQuery =`json_agg(json_build_object(
+      'name', g.name,
+      'slug', g.slug
+    )
+  ) FILTER (WHERE g.id IS NOT NULL) AS genre`
+
 
 
 
@@ -113,12 +119,42 @@ export default async function listRecords(params: ListRecordsParams) {
 }
 
 export async function getRecord(id: number){
-        const result = await pool.query(`SELECT ${generalQuery}, r.label, r.sleeve, r.year, r.media, r.country, r.catalog_id, r.description, r.status,
-        ${tracklistQuery}
-        FROM records r
-        LEFT JOIN tracks t ON t.record_id = r.id
-        WHERE r.id = $1
-        GROUP BY r.id;`, [id]);
+        const result = await pool.query(`
+SELECT 
+  r.*,
+  g.genre,
+  t.tracklist
+
+FROM records r
+
+LEFT JOIN LATERAL (
+  SELECT json_agg(
+    json_build_object(
+      'name', g.name,
+      'slug', g.slug
+    )
+  ) AS genre
+  FROM record_genres rg
+  JOIN genres g ON g.id = rg.genre_id
+  WHERE rg.record_id = r.id
+) g ON true
+
+LEFT JOIN LATERAL (
+  SELECT json_agg(
+    json_build_object(
+        'id', t.id,
+        'title', t.name,
+        'duration', t.duration,
+        'bpm', t.bpm,
+        'url', t.preview
+    )
+    ORDER BY t.id
+  ) AS tracklist
+  FROM tracks t
+  WHERE t.record_id = r.id
+) t ON true
+
+WHERE r.id = $1;`, [id]);
             const { rows } = result; 
         return rows;    
 }
