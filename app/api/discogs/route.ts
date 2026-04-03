@@ -20,6 +20,6 @@ export async function POST(request: Request){
         })
         return new NextResponse(JSON.stringify({r:discogsResponse}), {status:200})
     } catch {
-        return new Error("something went wrong with discogs")
+        return NextResponse.json({ error: "Unknown error" },{ status: 500 });
     }
 }
