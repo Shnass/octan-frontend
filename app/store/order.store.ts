@@ -59,7 +59,6 @@ export const useOrderStore = create<OrderState>()(persist((set, get) => ({
         )
     },
     isDeliveryDataComplete: () => {
-        console.log('kek')
     }
 }), {
     name: 'order-storage',

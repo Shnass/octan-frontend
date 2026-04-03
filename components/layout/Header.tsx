@@ -10,19 +10,21 @@ import CurrencySelect from "../settings/CurrencySelect";
 
 export default function Header() {
     return (
-        <header className="py-10 relative w-full">
+      <header className="mb-12">
+        <div className="py-6 relative w-full">
           <div className="flex justify-end">
             <Navi />
             <CurrencySelect />
           </div>
           <div className="flex justify-between ">
             <Logo />
-            <GenreNavi genres={genres} />
             <Suspense fallback={<div>Loading...</div>}>
               <SearchClient />
             </Suspense>
             <HeaderCart />
           </div>
-        </header>
+        </div>
+        <GenreNavi genres={genres} />
+      </header> 
     )
 }

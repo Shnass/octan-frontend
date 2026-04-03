@@ -5,7 +5,6 @@ import { Order } from "@/types/order";
 
 export default async function createOrder(order:Order){
     const {buyer, country, city, zipcode, address, np, shipping, items, payment, status, sum, currency} = order;
-    console.log(order);
 const client = await pool.connect()
 
 try {

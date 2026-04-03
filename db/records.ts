@@ -46,15 +46,15 @@ export default async function listRecords(params: ListRecordsParams) {
     let result: QueryResult | null = null;
 
     if(genre) {
-        result = await pool.query(`SELECT ${totalPagesQuery}, ${generalQuery}, 
-        ${tracklistQuery}
+        result = await pool.query(`SELECT DISTINCT ON (r.name, r.catalog_id)
+        ${totalPagesQuery}, ${generalQuery}, ${tracklistQuery}
         FROM records r
         JOIN record_genres rg ON rg.record_id = r.id
         JOIN genres g ON g.id = rg.genre_id
         LEFT JOIN tracks t ON t.record_id = r.id
         WHERE g.slug = $1
         GROUP BY r.id, r.name, r.artist, r.year
-        ORDER BY r.year DESC
+        ORDER BY r.name, r.catalog_id DESC, r.year ASC, r.id DESC 
         LIMIT $2 OFFSET $3;`, [genre, perPage, offset]);
     }
 
@@ -65,7 +65,7 @@ export default async function listRecords(params: ListRecordsParams) {
         LEFT JOIN tracks t ON t.record_id = r.id
         WHERE r.artist ILIKE $1
         GROUP BY r.id, r.name, r.artist, r.year
-        ORDER BY r.year DESC
+        ORDER BY r.year DESC, r.id DESC
         LIMIT $2 OFFSET $3;`, [`%${artist}%`, perPage, offset]);
     }
 
@@ -76,7 +76,7 @@ export default async function listRecords(params: ListRecordsParams) {
         LEFT JOIN tracks t ON t.record_id = r.id
         WHERE r.label ILIKE $1
         GROUP BY r.id, r.name, r.artist, r.year
-        ORDER BY r.year DESC
+        ORDER BY r.year DESC, r.id DESC
         LIMIT $2 OFFSET $3;`, [`%${label}%`, perPage, offset]);
     }
 
@@ -91,7 +91,7 @@ export default async function listRecords(params: ListRecordsParams) {
           OR r.artist ILIKE $1
           OR r.catalog_id ILIKE $1
         GROUP BY r.id, r.name, r.year
-        ORDER BY r.year DESC
+        ORDER BY r.year DESC, r.id DESC
         LIMIT $2 OFFSET $3;`, [`%${search}%`, perPage, offset]);
     }
 
@@ -104,7 +104,7 @@ export default async function listRecords(params: ListRecordsParams) {
           FROM records r
           LEFT JOIN tracks t ON t.record_id = r.id
           GROUP BY r.id, r.name, r.artist, r.year
-          ORDER BY r.year DESC
+          ORDER BY r.year DESC, r.id DESC
           LIMIT $1 OFFSET $2;`, [perPage, offset]);
     }
 

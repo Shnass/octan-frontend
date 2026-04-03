@@ -8,7 +8,6 @@ export async function POST(request: Request){
 
     try{
         const listingId = body._id;
-        console.log(listingId);
         const discogsResponse = await fetch(`https://api.discogs.com/marketplace/listings/${listingId}`,{
             method:'POST',
             headers:{
@@ -19,7 +18,6 @@ export async function POST(request: Request){
                 status: "Draft",
             }),
         })
-        console.log(discogsResponse);
         return new NextResponse(JSON.stringify({r:discogsResponse}), {status:200})
     } catch {
         return new Error("something went wrong with discogs")

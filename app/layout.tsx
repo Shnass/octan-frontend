@@ -1,5 +1,4 @@
 import "./globals.css";
-import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Container from "@/components/layout/Container";
 import type { Metadata } from "next";
@@ -20,7 +19,6 @@ export default function RootLayout({
   return (
     <AudioContextProvider>
       <Container>
-        <Header />
         <div className="flex-grow">
           {children}
         </div>

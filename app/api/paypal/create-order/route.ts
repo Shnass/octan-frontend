@@ -20,6 +20,5 @@ export async function POST(req: Request) {
 // mock example
 async function calculateCartTotal(cartId: string) {
   // fetch from DB instead
-  console.log(cartId);
   return {amount: 0.99, currency: 'USD'};
 }

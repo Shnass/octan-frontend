@@ -1,6 +1,4 @@
-import GenreNavi from "@/components/shop/GenreNavi";
 import StoreItemsList from "@/components/shop/StoreItemsList";
-import { genres } from "@/data/genres";
 import listRecords from "@/db/records";
 import { Release } from "@/types/release";
 
@@ -11,7 +9,6 @@ export default async function Home() {
   const { releases } = items;
   return (
     <>
-      <GenreNavi genres={genres} />
       <StoreItemsList items={releases} showPagination={false}/>
     </>
   );

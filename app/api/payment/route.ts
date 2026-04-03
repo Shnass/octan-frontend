@@ -20,7 +20,6 @@ export async function POST(req: Request) {
     ...body.productPrice,
   ].join(";");
 
-    console.log("SIGNATURE STRING:", signatureString);
 
 
   const merchantSignature = crypto

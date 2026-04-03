@@ -48,7 +48,6 @@ Return JSON:
 
   const text = response.output_text.trim();
 
-  console.log(text)
 
   if (text === "INSUFFICIENT_DATA") {
     return null;

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import clsx from "clsx";
 
-const buttonStyles = "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition cursor-pointer";
+const buttonStyles = "px-4 py-2 bg-octanred text-white hover:bg-octanblack transition cursor-pointer";
 
 type ButtonProps = {
     children: React.ReactNode, 

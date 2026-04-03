@@ -1,7 +1,6 @@
 import pool from "@/lib/dbConnect";
 
 export async function GET(req: Request) {
-  console.log([...req.headers.entries()]);
   if (req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -18,7 +17,6 @@ export async function GET(req: Request) {
     const USD = data.quotes.EURUSD.toFixed(2);
     const GBP = data.quotes.EURGBP.toFixed(2);
 
-    console.log(UAH, USD, GBP);
 
   // save to DB
     await pool.query(`

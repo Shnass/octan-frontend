@@ -13,7 +13,6 @@ export default function GlobalAudioPlayer() {
   function handlePlayer() {
     if (currentTrack !== null) {
 
-      console.log(currentTrack)
 
       playButtonHandler(currentTrack.release, currentTrack, currentTrack.url === undefined ? "" : currentTrack.url);
     }

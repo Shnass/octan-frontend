@@ -34,7 +34,6 @@ export default function AudioContextProvider({ children, }: { children: React.Re
         stop();
         load(src, { html5: true, autoplay: true, onend: () => {
           setIsPlaying(false) 
-          console.log(currentTrack)
         }
         });
     }
@@ -72,7 +71,6 @@ export default function AudioContextProvider({ children, }: { children: React.Re
         setIsPlaying(true);
         play(src);
         setCurrentTrack({ ...track, release });
-        console.log(track.id);
       }
 
     return (

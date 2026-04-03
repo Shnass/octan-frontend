@@ -9,24 +9,15 @@ import StoreItemsList from "./StoreItemsList";
 import SocialShare from "../general/SocialShare"
 import PlayButton from "../audioplayer/PlayButton";
 import Price from "./Price";
-import GeneratedDescription from "./GeneratedDescription";
-
 
 
 export default async function ReleaseExtended({item}: {item: Release}) {
-  console.log(item.genre);
   const byArtist = await listRecords({artist: item.artist, perPage: 4});
   const byLabel = await listRecords({label: item.label, perPage: 4});
 
-  const description = await GeneratedDescription(item);
-  if(description) {
-    const descriptionContent = await description.JSON();
-    console.log(description);
-  }
-
   return (
-    <div className="flex gap-8">
-      <div className="w-[400]">
+    <div className="flex gap-12">
+      <div className="grow">
         <ReleaseImage src={item.cover} alt={item.name} width={400} height={400} />
 
         <div>
@@ -34,12 +25,8 @@ export default async function ReleaseExtended({item}: {item: Release}) {
             track.url && <PlayButton key={index} src={`https://audio.octan.online/${track.url}`} track={track} release={item}/>
         ))}
         </div>
-
-
-        
-
       </div>
-      <div className="grow">
+      <div className="w-1/2">
         <H1>{item.artist}</H1>
         <H2>{item.name}</H2>
 
@@ -50,11 +37,11 @@ export default async function ReleaseExtended({item}: {item: Release}) {
         <div className="flex gap-5 my-4 flex-wrap">
           <div className="basis-120">
             <div className="mb-4">
-              {item.label && <p>Label: {item.label}</p>}
-              {item.country && <p>Country: {item.country}</p>}
-              {item.catalog_id && <p>Catalog ID: {item.catalog_id}</p>}
-              {item.media && <p>Media Condition: {item.media}</p>}
-              {item.sleeve && <p>Sleeve Condition: {item.sleeve}</p>}
+              {item.label && <p><b>Label:</b> {item.label}</p>}
+              {item.country && <p><b>Country:</b> {item.country}</p>}
+              {item.catalog_id && <p><b>Catalog ID:</b> {item.catalog_id}</p>}
+              {item.media && <p><b>Media Condition:</b> {item.media}</p>}
+              {item.sleeve && <p><b>Sleeve Condition:</b> {item.sleeve}</p>}
             </div>
             <p className="text-2xl font-extrabold my-4"><Price prices={item.prices} /></p>
             {item.status === 'sold' ? 'Out of Stock' : <AddToCartButton item={item} />} 
