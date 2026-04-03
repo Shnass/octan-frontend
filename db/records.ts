@@ -10,7 +10,7 @@ type ListRecordsParams = {
   artist?: string | null;
   label?: string | null;
   query?: string | null;
-};
+}
 type QueryReleaseResponse = ReleaseFetched & {pages:number};
 
 const generalQuery = `r.id, r.name, r.artist, r.year, r.cover, r.price, r.status`;
