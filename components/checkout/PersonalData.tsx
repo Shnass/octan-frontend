@@ -10,14 +10,16 @@ import { useEffect, useState } from "react";
 import { useRouter, redirect } from 'next/navigation';
 
 import { useCartStore } from "@/app/store/cart.store";
-
+import { useCurrencyStore } from "@/app/store/currency.store";
 
 export default function PersonalData(){
   const router = useRouter();
 
   const orderState = useOrderStore();
   const cartState = useCartStore();
+  const { currency }  = useCurrencyStore();
   const { items, getSummary } = cartState;
+  
 
   const { buyer, order, setOrderValue, writeOrderToDB} = orderState;
   const {totalPrice} = getSummary();
@@ -37,7 +39,7 @@ export default function PersonalData(){
     const buyer = data;
     setOrderValue('buyer',buyer);
     setOrderValue('items', items);
-    setOrderValue('sum', totalPrice);
+    setOrderValue('sum', totalPrice[currency]);
     //writeOrderToDB();
     router.push('/checkout?stage=shipping');
   };
