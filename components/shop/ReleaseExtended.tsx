@@ -54,7 +54,7 @@ export default async function ReleaseExtended({item}: {item: Release}) {
               ))}
             </ul>
           </div>
-          {item.description && 
+          {item.description && item.description!=="INSUFFICIENT_DATA" &&
             <div className="w-full" dangerouslySetInnerHTML={{__html: item.description}}>
               
             </div>

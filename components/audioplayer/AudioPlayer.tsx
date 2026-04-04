@@ -18,11 +18,11 @@ export default function GlobalAudioPlayer() {
     }
   }
 
-  return <div className="fixed bottom-10 right-10 bg-gray-800 text-white p-4 flex items-center gap-4 z-50 rounded-3xl align-middle">
+  return <div className="fixed bottom-10 right-10 bg-gray-800 text-white p-4 flex w-100 items-center gap-4 z-50 rounded-2xl align-middle">
     {currentTrack!==null && 
       <>
         <div className="w-[50px] h-[50px] relative">
-          <div className="w-[50px] h-[50px] overflow-hidden rounded-full animate-spin [animation-duration:3s]">
+          <div className="w-[50px] h-[50px] overflow-hidden rounded-lg">
             <ReleaseImage 
               src={currentTrack.release.cover} 
               alt={currentTrack.release.name} 
@@ -30,22 +30,23 @@ export default function GlobalAudioPlayer() {
               height={50} 
             />
           </div>
-          <button onClick={handlePlayer} className="absolute top-1/2 p-0 w-[32px] h-[32px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-75 rounded-full p-2 transition-opacity">
+        </div>
+        <div className="text-md leading-[1.1em] overflow-hidden">
+          <small className="block whitespace-nowrap overflow-hidden text-ellipsis">{currentTrack.release.artist}</small>
+          <span className="block whitespace-nowrap overflow-hidden text-ellipsis">{currentTrack.title}</span>
+        </div>
+        <div className="flex gap-2 ml-auto grow justify-end w-22 shrink-0">
+          <button onClick={() => bwd(currentTrack.release, currentTrack)} className="cursor-pointer w-6 h-6 text-right">
+            <Image src="/bwd.svg" alt="Previous" width={18} height={18} />
+          </button>
+          <button onClick={handlePlayer} className="w-6 h-6">
             {isPlaying ? 
-              <Image src="/pause.svg" alt="Pause" width={32} height={32} /> :
-              <Image src="/play.svg" alt="Play" width={32} height={32} />
+              <Image src="/pause.svg" alt="Pause" width={18} height={18} /> :
+              <Image src="/play.svg" alt="Play" width={18} height={18} />
             }
           </button>
-        </div>
-        <p>
-          <small>{currentTrack.release.artist}</small><br/>
-          {currentTrack.title}</p>
-        <div className="flex gap-2">
-          <button onClick={() => bwd(currentTrack.release, currentTrack)} className="cursor-pointer">
-            <Image src="/bwd.svg" alt="Previous" width={24} height={24} />
-          </button>
-          <button onClick={() => fwd(currentTrack.release, currentTrack)} className="cursor-pointer">
-            <Image src="/fwd.svg" alt="Next" width={24} height={24} />
+          <button onClick={() => fwd(currentTrack.release, currentTrack)} className="cursor-pointer w-6 h-6 text-left">
+            <Image src="/fwd.svg" alt="Next" width={18} height={18} />
           </button>
         </div>
       </>

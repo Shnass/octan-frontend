@@ -13,7 +13,7 @@ export default function PlayButton({ src, track, release }: { src: string, track
         playButtonHandler(release, track, src);
     }
 
-    return <button className="cursor-pointer" onClick={handleClick}>
+    return <button className="cursor-pointer w-4 h-4" onClick={handleClick}>
         {currentTrack !== null && currentTrack.id === track.id && isPlaying ? "⏸" : "▶"}
     </button>
 }
