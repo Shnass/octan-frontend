@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --accent-color: #adff2f;
 }
 
 @theme {

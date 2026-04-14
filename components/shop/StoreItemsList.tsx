@@ -6,15 +6,16 @@ import { Release } from "@/types/release";
 type StoreItemsListProps = { items: Releases, 
     pages?: number, 
     currentPage?: number,
-    showPagination?: boolean 
+    showPagination?: boolean,
+    perRow?: number 
   }
 
 export default function StoreItemsList(
-  { items, pages=1, currentPage=1, showPagination = true } : StoreItemsListProps) {
+  { items, pages=1, currentPage=1, showPagination = true, perRow = 5 } : StoreItemsListProps) {
   return (
     <>
-      <div className="flex wrap-normal flex-wrap -mx-3">
-        {items.map((item:Release) => <StoreItemCard key={item.id} item={item} />)}
+      <div className="flex wrap-normal flex-wrap -mx-3 w-full">
+        {items.map((item:Release) => <StoreItemCard key={item.id} item={item} perRow={perRow}/>)}
       </div>
       {(showPagination && pages>1) && <Pagination totalPages={pages} currentPage={currentPage} />}
     </>

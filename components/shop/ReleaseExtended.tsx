@@ -9,11 +9,12 @@ import StoreItemsList from "./StoreItemsList";
 import SocialShare from "../general/SocialShare"
 import PlayButton from "../audioplayer/PlayButton";
 import Price from "./Price";
+import AIDisclaimer from "../general/AIDisclaimer";
 
 
 export default async function ReleaseExtended({item}: {item: Release}) {
-  const byArtist = await listRecords({artist: item.artist, perPage: 4});
-  const byLabel = await listRecords({label: item.label, perPage: 4});
+  const byArtist = await listRecords({artist: item.artist, perPage: 3});
+  const byLabel = await listRecords({label: item.label, perPage: 3});
 
   return (
     <div className="flex gap-12">
@@ -21,7 +22,8 @@ export default async function ReleaseExtended({item}: {item: Release}) {
         <ReleaseImage src={item.cover} alt={item.name} width={400} height={400} />
 
         <div>
-        {item.tracklist.map((track, index) => (
+
+        {item.tracklist !== null && item.tracklist.map((track, index) => (
             track.url && <PlayButton key={index} src={`https://audio.octan.online/${track.url}`} track={track} release={item}/>
         ))}
         </div>
@@ -46,6 +48,7 @@ export default async function ReleaseExtended({item}: {item: Release}) {
             <p className="text-2xl font-extrabold my-4"><Price prices={item.prices} /></p>
             {item.status === 'sold' ? 'Out of Stock' : <AddToCartButton item={item} />} 
           </div>
+          {item.tracklist !== null &&
           <div className="grow">
             <H2>Tracklist:</H2>
             <ul>
@@ -54,10 +57,13 @@ export default async function ReleaseExtended({item}: {item: Release}) {
               ))}
             </ul>
           </div>
+          }
+
           {item.description && item.description!=="INSUFFICIENT_DATA" &&
-            <div className="w-full" dangerouslySetInnerHTML={{__html: item.description}}>
-              
-            </div>
+            <article>
+              <H2>Description <AIDisclaimer /></H2>
+              <div className="w-full" dangerouslySetInnerHTML={{__html: item.description}}></div>
+            </article>
           }
         </div>
 
@@ -75,7 +81,12 @@ export default async function ReleaseExtended({item}: {item: Release}) {
             </Link>
           </H2>
 
-          <StoreItemsList items={byArtist.releases.filter(release => release.id !== item.id)} currentPage={1} pages={byArtist.pages}/>
+          <StoreItemsList 
+            items={byArtist.releases.filter(release => release.id !== item.id)} 
+            currentPage={1} 
+            perRow={3} 
+            showPagination={false}
+            />
           </div>
           : null}
 
@@ -89,7 +100,11 @@ export default async function ReleaseExtended({item}: {item: Release}) {
             </Link>
           </H2>
 
-          <StoreItemsList items={byLabel.releases.filter(release => release.id !== item.id)} currentPage={1} pages={byLabel.pages}/>
+          <StoreItemsList 
+            items={byLabel.releases.filter(release => release.id !== item.id)} 
+            currentPage={1} 
+            perRow={3} 
+            showPagination={false}/>
           </div>
         : null}  
       </div>

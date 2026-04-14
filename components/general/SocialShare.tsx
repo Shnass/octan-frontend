@@ -8,13 +8,15 @@ import {
   XIcon,
   WhatsappIcon,
 } from 'react-share';
+import H3 from './H3';
 
 const ShareButtons = ({ title }:{title:string}) => {
   // Get the current page URL
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   return (
-    <div>
+    <div className="flex gap-2 items-center">
+      <H3>Share at:</H3>
       <FacebookShareButton url={shareUrl} title={title}>
         <FacebookIcon size={32} round />
       </FacebookShareButton>

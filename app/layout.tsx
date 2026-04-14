@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import GlobalAudioShell from "@/components/audioplayer/GlobalAudioShell";
 import AudioContextProvider from "@/components/audioplayer/AudioContextProvider";
 import CookiesBar from "@/components/cookies/CookiesBar";
+import CartAside from "@/components/cart/CartAside";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,13 +20,12 @@ export default function RootLayout({
   return (
     <AudioContextProvider>
       <Container>
-        <div className="flex-grow">
-          {children}
-        </div>
-        <GlobalAudioShell />
-        <Footer />
-        <CookiesBar />
+        {children}
       </Container>
+      <Footer />
+      <GlobalAudioShell />
+      <CartAside />
+      <CookiesBar />
     </AudioContextProvider>
   );
 }

@@ -7,6 +7,8 @@ interface CartState {
     items: Release[];
     addToCart: (release: Release) => void;
     removeFromCart: (releaseId: number) => void;
+    isCartShown: boolean;
+    toggleCart: () => void;
     clearCart: () => void;
     getSummary: () => { totalItems: number; totalPrice: Record<Currency, number> };
 }
@@ -24,6 +26,10 @@ export const useCartStore = create<CartState>()(persist((set, get) => ({
     items: [],
     addToCart: (release: Release) => set((state) => ({
         items: [...state.items, release]
+    })),
+    isCartShown: false,
+    toggleCart: ()=>set((state)=>({
+        isCartShown: !state.isCartShown
     })),
     getSummary: () =>{
         const { items } = get();

@@ -1,30 +1,40 @@
 import SearchClient from "../general/SearchClient";
 import GenreNavi from "../shop/GenreNavi";
 import { genres } from "@/data/genres";
-import HeaderCart from "../shop/HeaderCart";
+import HeaderCart from "../cart/HeaderCart";
 import Logo from "./Logo";
 import Navi from "./Navi";
 import { Suspense } from "react"
 import CurrencySelect from "../settings/CurrencySelect";
+import HeaderSearch from "./header/SearchCaller";
+import HeaderSettings from "./header/SettingsCaller";
+import HeaderNavi from "./header/HeaderNavi";
+import HeaderAsideControls from "./header/HeaderAsideControls";
     
-
 export default function Header() {
     return (
-      <header className="mb-12">
-        <div className="py-6 relative w-full">
-          <div className="flex justify-end">
-            <Navi />
-            <CurrencySelect />
-          </div>
-          <div className="flex justify-between ">
+      <header>
+
+          <HeaderNavi>
             <Logo />
-            <Suspense fallback={<div>Loading...</div>}>
-              <SearchClient />
-            </Suspense>
+            <GenreNavi genres={genres} />
+            <Navi />
+            {/*
+              <Suspense fallback={<div>Loading...</div>}>
+                <SearchClient />
+              </Suspense>
+            */}
+            {/*
+              <div className="flex justify-end">
+                <CurrencySelect />
+              </div>
+            */}
+          </HeaderNavi>
+          <HeaderAsideControls>
+            <HeaderSettings />
+            <HeaderSearch />
             <HeaderCart />
-          </div>
-        </div>
-        <GenreNavi genres={genres} />
+          </HeaderAsideControls>
       </header> 
     )
 }

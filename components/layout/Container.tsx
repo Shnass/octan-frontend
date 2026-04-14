@@ -17,18 +17,19 @@ const julius = Julius_Sans_One({
     weight: "400"
 });
 
-export default function Container({children}: {children: React.ReactNode}) {
+export default function Container({children, showBanner = false}: {children: React.ReactNode, showBanner?: boolean}) {
     return (
         <html lang="en">
             <body className={`${geistSans.variable} ${julius.variable} ${geistMono.variable} antialiased bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100` }>
             <div className="max-w-screen-2xl mx-auto px-4">
                 <Header />
             </div>
-            <div className="container max-w-7xl mx-auto px-4">
-                <div className="min-h-screen font-sans dark:bg-black flex flex-col">
-                {children}
-                </div>
-            </div>
+            {
+                showBanner &&
+                <div>BANNER<br/>BANNER<br/>BANNER<br/>BANNER<br/>BANNER<br/></div>
+            }
+
+            {children}
             </body>
         </html>
     )
