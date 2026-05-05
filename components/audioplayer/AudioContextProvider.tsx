@@ -21,6 +21,12 @@ export default function AudioContextProvider({ children, }: { children: React.Re
     const [isPlaying, setIsPlaying] = useState(false);
     const { stop, pause, load } = useAudioPlayer();
 
+    const killPlayer = () => {
+      setCurrentTrack(null);
+      setIsPlaying(false);
+      pause();
+    }
+
 
     const playTrack = (release: Release, track: Track, src: string) => {
         src = trackUrlModifier(src);
@@ -74,7 +80,7 @@ export default function AudioContextProvider({ children, }: { children: React.Re
       }
 
     return (
-        <AudioContext.Provider value={{ currentTrack, isPlaying, playButtonHandler, play, pause, fwd, bwd }}>
+        <AudioContext.Provider value={{ currentTrack, isPlaying, playButtonHandler, play, pause, fwd, bwd, killPlayer }}>
             {children}
         </AudioContext.Provider>
     );

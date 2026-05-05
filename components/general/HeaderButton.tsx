@@ -16,7 +16,7 @@ export default function HeaderButton({ children, onClick, disabled=false, points
     return (
         <Button 
             className={
-                clsx(`inline-flex shadow-lg/40 shadow-black items-center justify-center cursor-pointer relative bg-black text-center rounded-4xl w-10 h-10`, 
+                clsx(`inline-flex shadow-lg/40 shadow-black items-center justify-center cursor-pointer relative bg-accent text-center rounded-4xl w-10 h-10`, 
                     disabled && "pointer-events-none opacity-50")
             }
             aria-disabled={disabled}

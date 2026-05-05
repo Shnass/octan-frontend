@@ -1,18 +1,19 @@
 import Banner from "@/components/blocks/Banner";
+import Spotify from "@/components/embdings/Spotify";
 import InnerPageContainer from "@/components/layout/InnerPageContainer";
-import StoreItemsList from "@/components/shop/StoreItemsList";
-import listRecords from "@/db/records";
-import { Release } from "@/types/release";
+import GenreBlock from "@/components/shop/GenreBlock";
 
 export default async function Home() {
-  const fetchPlaceholder : {releases: Release[], pages: number} = { releases: [], pages: 0 }
-  const items = await listRecords({}) ?? fetchPlaceholder;
-  const { releases } = items;
   return (
     <>
       <Banner />
       <InnerPageContainer>
-        <StoreItemsList items={releases} showPagination={false}/>
+        <GenreBlock title="House" slug="house" />
+        <GenreBlock title="Techno" slug="techno" />
+        <GenreBlock title="Breakbeat" slug="breakbeat" />
+        <GenreBlock title="Trance" slug="trance" />
+        <GenreBlock title="Downtempo" slug="downtempo" />
+        <Spotify />
       </InnerPageContainer>
     </>
   );

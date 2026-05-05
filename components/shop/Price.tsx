@@ -8,8 +8,8 @@ export default function Price({prices}:{prices:Prices}) {
   const {currency} = currencyState;
   console.log(currency);
   return (
-    <div>
+    <span>
       {currencySigns[currency]}{prices[currency]}
-    </div>
+    </span>
   )
 }

@@ -4,6 +4,11 @@
   --background: #ffffff;
   --foreground: #171717;
   --accent-color: #adff2f;
+  --bg:#F0F0DB;
+  --fg:#E1D9BC;
+  --accent:#30364F;
+  --accent-fg:#ACBAC4;
+
 }
 
 @theme {
@@ -12,8 +17,14 @@
   --font-playfair: "Playfair Display", serif;
   --font-julius:'Julius Sans One', sans-serif;
   --font-coral:'Coral Pixels', serif;
+  --font-contrail:'Contrail One', sans-serif;
   --color-octanred:#de1f17;
   --color-octanblack:#010101;
+  --color-bg:var(--bg);
+  --color-fg:var(--fg);
+  --color-accent:var(--accent);
+  --color-accent-fg:var(--accent-fg);
+
 }
 
 @theme inline {
@@ -21,6 +32,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-bg: var(--bg);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,4 +1,4 @@
-import ReleaseExtended from "@/components/shop/ReleaseExtended";
+import ReleaseExtended from "@/components/shop/releasepage/ReleaseExtended";
 import {getRecord} from "@/db/records";
 import { Release } from "@/types/release";
 import setCurrencies from "@/services/setCurrencies"; 

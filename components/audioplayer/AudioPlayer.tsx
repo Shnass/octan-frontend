@@ -7,15 +7,17 @@ import Image from "next/image";
 
 export default function GlobalAudioPlayer() {
   const audioContext = useContext(AudioContext);
-  const { currentTrack, isPlaying, playButtonHandler, fwd, bwd } = audioContext;
+  const { currentTrack, killPlayer, isPlaying, playButtonHandler, fwd, bwd } = audioContext;
   if (currentTrack === null) return null;
 
   function handlePlayer() {
     if (currentTrack !== null) {
-
-
       playButtonHandler(currentTrack.release, currentTrack, currentTrack.url === undefined ? "" : currentTrack.url);
     }
+  }
+
+  function closePlayer(){
+    killPlayer();
   }
 
   return <div className="fixed bottom-10 right-10 bg-gray-800 text-white p-4 flex w-100 items-center gap-4 z-50 rounded-2xl align-middle">
@@ -49,6 +51,14 @@ export default function GlobalAudioPlayer() {
             <Image src="/fwd.svg" alt="Next" width={18} height={18} />
           </button>
         </div>
+
+        <button
+          className="absolute -right-1 -top-1 bg-amber-700 rounded-2xl text-white w-5 h-5 text-sm/0.5"
+          onClick={closePlayer}
+        >
+            x
+        </button>
+
       </>
     }
   </div>

@@ -7,6 +7,7 @@ import { createContext } from "react";
 
 type AudioContextType = {
   currentTrack: TrackWithRelease | null;
+  killPlayer: ()=>void;
   isPlaying: boolean;
   playButtonHandler: (release: Release, track: Track, src: string) => void;
   play: (src: string) => void;
@@ -17,6 +18,7 @@ type AudioContextType = {
 
 const AudioContext = createContext<AudioContextType>({
   currentTrack: null,
+  killPlayer: () => {},
   isPlaying: false,
   playButtonHandler: () => {},
   play: () => {},
